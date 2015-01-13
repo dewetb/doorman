@@ -23,7 +23,7 @@ def unlock_gate():
 def office_hours():
     hour = datetime.now().hour
     day = datetime.now().weekday()
-    #Time is whatever time the host is set to and day is 0 - 6 for Monday - Sunday
+    #Time is host time and day is 0 - 6 for Monday - Sunday
     if 5 < hour < 18 and day < 5:
         return True
     else:
@@ -32,24 +32,24 @@ def office_hours():
 app = Flask(__name__)
 @app.route("/", methods=['GET', 'POST'])
 def open_or_not():
-    # Get the caller's phone number from the incoming Twilio request
+    # Get the phone number from the incoming Twilio request
     from_number = request.values.get('From', None)
     resp = twilio.twiml.Response()
  
     # if a building admin calls, always unlock:
     if from_number in building_admins:
         unlock_gate()
-        resp.say("Welcome " + building_admins[from_number] + " come inside, have you been enjoying learning programming? You should keep working at it because when you can program, you can make a computer do anything")
+        resp.say("Welcome " + building_admins[from_number] + " come inside")
     # if a participant calls during office hours, unlock
     elif from_number in participants and office_hours() == True:
         unlock_gate()
-        resp.say("Welcome " + participants[from_number] + " nice to have you back")
+        resp.say("Welcome " + participants[from_number] + " welcome back")
     # if a participant calls outside of office hours, do not unlock
     elif from_number in participants and office_hours() == False:
-        resp.say("I'm sorry " + participants[from_number] + " it is outside of office hours, you don't have to go home but you can't stay here")
+        resp.say("I'm sorry " + participants[from_number] + " it is outside of office hours")
     # for any caller not on the lists, do not unlock
     else:
-        resp.say("I'm sorry, I do not know you so I may not unlock the door.")
+        resp.say("I'm sorry, I do not know you so I may not unlock.")
  
     return str(resp)
 
