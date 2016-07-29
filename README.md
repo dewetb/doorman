@@ -8,3 +8,5 @@ Here is what you will need
   3. An electronic lock, wired up to the first relay on the Piface digital.
   4. A Twilio number
   5. Pord forwarding on your router
+
+Let me know if you get stuck or need help.
