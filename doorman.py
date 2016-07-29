@@ -19,7 +19,7 @@ def unlock_gate():
     sleep(1)
     pfio.digital_write(0,0)
     sleep(1)
- 
+
 def office_hours():
     hour = datetime.now().hour
     day = datetime.now().weekday()
@@ -35,7 +35,7 @@ def open_or_not():
     # Get the phone number from the incoming Twilio request
     from_number = request.values.get('From', None)
     resp = twilio.twiml.Response()
- 
+
     # if a building admin calls, always unlock:
     if from_number in building_admins:
         unlock_gate()
@@ -46,20 +46,13 @@ def open_or_not():
         resp.say("Welcome " + participants[from_number] + " welcome back")
     # if a participant calls outside of office hours, do not unlock
     elif from_number in participants and office_hours() == False:
-<<<<<<< HEAD
         resp.say("sorry " + participants[from_number] + " it is outside of office hours")
-=======
         resp.say("I'm sorry " + participants[from_number] + " it is outside of office hours")
->>>>>>> bbae78b063d4ca637092c64ce5c13f1cde8d36f7
     # for any caller not on the lists, do not unlock
     else:
         resp.say("I'm sorry, I do not know you so I may not unlock.")
- 
+
     return str(resp)
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     app.run(host='0.0.0.0', port=6789, debug=False)
-=======
-    app.run(host='0.0.0.0', port=6789, debug=True)
->>>>>>> bbae78b063d4ca637092c64ce5c13f1cde8d36f7
